@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+<html lang="en">
+<head>
+    <title>Privates</title>
+	<script src="declare.js"></script>
+	<script>
+	
+		var id = "global";
+		var Base = declare(function(){});
+		var Node = declare(
+			Base,
+			function(options){
+				console.log("main constr")
+			},
+			{
+				id:"node",
+				top:10,
+				bot:10
+			}
+			
+		)
+		var node = new Node({
+			// instance properties:
+			top:61,
+			bot:16,
+			// private properties and methods:
+			width:100,
+			height:20,
+			id:"props",
+			area: function(){ // will be "getArea"
+				return this.getWidth() * this.getHeight(); // maintains "this"
+			}
+		});
+		console.log(node)
+		
+		var node2 = new Node({
+			// instance properties:
+			top:.5,
+			bot:.9
+		})
+		console.log(node2)
+		/*
+		node.setWidth(99);
+		node.setHeight(66);
+		console.log("W:", node.getWidth());
+		console.log("H:", node.getHeight());
+		console.log("A:", node.getArea());
+		node.setArea("mike")
+		console.log("A:", node.getArea());
+		
+		console.log("Same arguments, but in 'learn' mode:");
+		declare.learn = true;
+		var node = new Node({top:5, bot:5, width:100, height:20});
+		*/
+		
+		
+		var Attr = declare(
+			function(options){
+				console.log("main constr")
+			},
+			{
+				id:"attr",
+				top:0,
+				bot:0
+			}
+		);
+		
+		var a1 = new Attr({top:2, bot:3, "idx":-1});
+		var a2 = new Attr({top:4, bot:5});
+		console.log(a1)
+		console.log(a2)
+		
+		var Dialog = declare(
+			function(options){
+			},
+			{
+				id:"dialog",
+				top:0,
+				bot:0,
+				constants:{
+					zindex:1
+				},
+				create: function(){
+					this.constants.zindex ++;
+					console.log("create at zindex:", this.constants.zindex)
+				}
+			}
+		);
+		
+		var d1 = new Dialog({top:1,bot:2});
+		var d2 = new Dialog({top:3,bot:4});
+		var d3 = new Dialog({top:3,bot:4});
+		d1.create();
+		d2.create();
+		d3.create();
+		
+	</script>
+</head>
+<body>
+    <h1>Privates</h1>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+<html lang="en">
+<head>
+    <title>Privates</title>
+	<script src="declare.js"></script>
+	<script>
+	
+		var id = "global";
+		var Base = declare(function(){});
+		
+		
+		//put secured key with all of the 'private' instance variables in it (with default values).
+		//any method with 'secure ' as the prefix will automatically get passed the secured object
+		//you call the method as you would normally without the 'secure ' prefixed modifier.
+		var Node = declare(
+			Base,
+			function(options){
+				console.log("main constr")
+			},
+			{
+				id:"node",
+				top:10,
+				bot:10,
+				'secure dec': function(s, by){
+					s.secret -= (by || 1);
+					console.log('Decrementing the nodes secret by ' + by, s.secret);
+				},
+				'secure inc': function(s, by){
+					s.secret += (by || 1);
+					console.log('Incrementing the nodes secret by ' + by, s.secret);
+				},
+				secured: {
+					secret: 123,
+					superSecret: 456
+				}
+			}
+			
+		)
+		var node = new Node({
+			// instance properties:
+			top:61,
+			bot:16,
+			// private properties and methods:
+			width:100,
+			height:20,
+			id:"props",
+			area: function(){ // will be "getArea"
+				return this.getWidth() * this.getHeight(); // maintains "this"
+			}
+		});
+		console.log(node)
+		node.inc(1);
+		node.inc(2);
+		node.inc(3);
+		node.inc(4);
+		node.dec(5);
+		console.log('node.secured\'s value:', node.secured);
+		var node2 = new Node({ bot:16, height:20,
+			id:"props/node2",
+			area: function(){ // will be "getArea"
+				return this.getWidth() * this.getHeight(); // maintains "this"
+			}
+		});
+		console.log('node2 incrementing');
+		if(node2.top === 61) console.error('node2.top shouldn\'t be 61', node2);
+		node2.inc(1);
+		node2.dec(7);	
+		console.log(node2)
+		
+		node.setWidth(99);
+		node.setHeight(66);
+		console.log("W:", node.getWidth());
+		console.log("H:", node.getHeight());
+		console.log("A:", node.getArea());		
+		node.setArea("mike")
+		console.log("A:", node.getArea());
+		
+		console.log("Same arguments, but in 'learn' mode:");
+		declare.learn = true;
+		var node = new Node({top:5, bot:5, width:100, height:20});
+		
+	</script>
+</head>
+<body>
+    <h1>Privates</h1>
+</body>
+</html>
