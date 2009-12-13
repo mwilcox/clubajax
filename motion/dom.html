@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>OO DOM</title>
+	<style>
+		html, body{
+			font-family:sans-serif;
+			height:100%;
+			margin:0;
+			padding:0;
+		}
+	</style>
+	<script src="ca.js"></script>
+	<script src="declare.js"></script>
+	<script src="Style.js"></script>
+	<script src="PropertyMotion.js"></script>
+	<script src="Motion.js"></script>
+	<script src="Node.js"></script>
+	
+	<script>
+	console.log("scr")
+		window.addEventListener("load", function(){
+			var amt = 20;
+			for(var i=0;i<amt;i++){
+				new Node({random:true});	
+			}
+		}, false);
+		
+	</script>
+</head>
+<body>
+
+</body>
+</html>
